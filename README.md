@@ -1,1 +1,1 @@
-# Encapsulation-Challange
+# Inheritance-Challange
