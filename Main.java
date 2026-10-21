@@ -1,62 +1,61 @@
-abstract class Employee {
-    private String name;
-    private int id;
+abstract class Notification {
+    private String message;
 
-    public String getName() {
-        return name;
+    public String getMessage() {
+        return message;
     }
 
-    public int getId() {
-        return id;
-    }
+    Notification(String message) {
 
-    
-
-    double salary;
-
-    Employee(String name, int id) {
-        this.name = name;
-        this.id = id;
-    }
-
-    abstract double getcalculateSalary();
-}
-
-class FullTimeEmployee extends Employee {
-
-    FullTimeEmployee(String name, int id) {
-        super(name, id);
-    }
-
-    @Override
-    double getcalculateSalary() {
-        return 40000;
-    }
-
-}
-
-class PartTimeEmployee extends Employee {
-
-    int hoursWorked;
-
-   PartTimeEmployee(String name, int id, int hoursWorked) {
-        super(name, id);
-
-        if (hoursWorked < 0) {
-            throw new IllegalArgumentException(
-                "Hours worked cannot be negative"
-            );
+        if (message == null || message.isBlank()) {
+            throw new IllegalArgumentException("Message is required");
         }
+        this.message = message;
+    }
 
-        this.hoursWorked = hoursWorked;
+    abstract void getSend();
+
+}
+
+class EmailNotification extends Notification {
+    EmailNotification(String message) {
+        super(message);
+
     }
 
     @Override
-    double getcalculateSalary() {
-        return hoursWorked * 300.0;
+    void getSend() {
+        System.out.println("Sending Email:" + getMessage());
     }
 
 }
+
+class SMSNotification extends Notification {
+    SMSNotification(String message) {
+        super(message);
+
+    }
+
+    @Override
+    void getSend() {
+        System.out.println("SMSNotification :" + getMessage());
+    }
+
+}
+
+class PushNotification extends Notification {
+    PushNotification(String message) {
+        super(message);
+
+    }
+
+    @Override
+    void getSend() {
+        System.out.println("PushNotification :" + getMessage());
+    }
+
+}
+
 
 /**
  * Main
@@ -64,16 +63,13 @@ class PartTimeEmployee extends Employee {
 public class Main {
 
     public static void main(String[] args) {
-         Employee e1 = new FullTimeEmployee("Rahul", 101);
-        Employee e2 = new PartTimeEmployee("Aman", 102, 80);
+        
+        Notification n1 = new EmailNotification("Your order is confirmed");
+        Notification n2 = new SMSNotification("Your order is confirmed");
+        Notification n3 = new PushNotification("Your order is confirmed");
 
-        System.out.println("Employee: " + e1.getName());
-        System.out.println("Full-Time Salary: " + e1.getcalculateSalary());
-
-        System.out.println();
-
-        System.out.println("Employee: " + e2.getName());
-        System.out.println("Part-Time Salary: " + e2.getcalculateSalary());
+        n1.getSend();
+        n2.getSend();
+        n3.getSend();
     }
-
 }
