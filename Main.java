@@ -1,51 +1,61 @@
-class Employee {
+abstract class Employee {
     private String name;
-    private int baseSalary;
-
-    public int getBaseSalary() {
-        return baseSalary;
-    }
+    private int id;
 
     public String getName() {
         return name;
     }
 
-    Employee(String name, int baseSalary) {
+    public int getId() {
+        return id;
+    }
+
+    
+
+    double salary;
+
+    Employee(String name, int id) {
         this.name = name;
-        this.baseSalary = baseSalary;
+        this.id = id;
     }
 
-    int calculateSalary(){
-        return baseSalary;
-    }
+    abstract double getcalculateSalary();
 }
 
-class FullTimeEmployee extends Employee{
+class FullTimeEmployee extends Employee {
 
-    FullTimeEmployee(String name , int baseSalary){
-        super(name, baseSalary);
+    FullTimeEmployee(String name, int id) {
+        super(name, id);
     }
 
     @Override
-    int calculateSalary() {
-        // TODO Auto-generated method stub
-         return getBaseSalary() + 5000;
+    double getcalculateSalary() {
+        return 40000;
     }
-
 
 }
 
-class Intern extends Employee{
+class PartTimeEmployee extends Employee {
 
-    Intern(String name, int baseSalary ){
-        super(name, baseSalary);
+    int hoursWorked;
+
+   PartTimeEmployee(String name, int id, int hoursWorked) {
+        super(name, id);
+
+        if (hoursWorked < 0) {
+            throw new IllegalArgumentException(
+                "Hours worked cannot be negative"
+            );
+        }
+
+        this.hoursWorked = hoursWorked;
     }
 
     @Override
-    int calculateSalary() {
-        // TODO Auto-generated method stub
-        return getBaseSalary()+1000;
+    double getcalculateSalary() {
+        return hoursWorked * 300.0;
     }
+
 }
 
 /**
@@ -54,15 +64,16 @@ class Intern extends Employee{
 public class Main {
 
     public static void main(String[] args) {
-        
+         Employee e1 = new FullTimeEmployee("Rahul", 101);
+        Employee e2 = new PartTimeEmployee("Aman", 102, 80);
 
-        Employee E1 = new FullTimeEmployee("Nikhil Sharma", 20000);
-        Employee E2 = new Intern("Rohit Chamar", 20000);
+        System.out.println("Employee: " + e1.getName());
+        System.out.println("Full-Time Salary: " + e1.getcalculateSalary());
 
-        System.out.println("Employee name :" + E1.getName());
-        System.out.println("Full Time Employee Salary :"+E1.calculateSalary());
+        System.out.println();
 
-        System.out.println("Employee name :" + E2.getName());
-        System.out.println("Intern Employee Salary :"+E2.calculateSalary());
+        System.out.println("Employee: " + e2.getName());
+        System.out.println("Part-Time Salary: " + e2.getcalculateSalary());
     }
+
 }
